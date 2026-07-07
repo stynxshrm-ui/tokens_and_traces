@@ -1,0 +1,15 @@
+# Support Triage Agent — LLM Observability Demo
+# Python 3.11+
+#
+# ── Core ───────────────────────────────────────────────────────────────────────
+openai>=1.35.0
+python-dotenv>=1.0.0
+
+# ── Vector store ───────────────────────────────────────────────────────────────
+chromadb>=0.5.0
+
+# ── Observability ──────────────────────────────────────────────────────────────
+langsmith>=0.1.83
+
+# ── Dev / tooling (optional) ───────────────────────────────────────────────────
+# ipython  # useful for interactive exploration
