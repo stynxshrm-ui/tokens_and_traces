@@ -1,0 +1,299 @@
+[
+  {
+    "threshold": 0,
+    "success_rate": 97.89,
+    "cost_per_request": 0.00224,
+    "cost_per_success": 0.1409,
+    "misrouted_categories": 0,
+    "misrouted_requests": 0,
+    "misrouted_pct": 0.0
+  },
+  {
+    "threshold": 2,
+    "success_rate": 97.89,
+    "cost_per_request": 0.00224,
+    "cost_per_success": 0.1409,
+    "misrouted_categories": 0,
+    "misrouted_requests": 0,
+    "misrouted_pct": 0.0
+  },
+  {
+    "threshold": 4,
+    "success_rate": 97.89,
+    "cost_per_request": 0.00224,
+    "cost_per_success": 0.1409,
+    "misrouted_categories": 0,
+    "misrouted_requests": 0,
+    "misrouted_pct": 0.0
+  },
+  {
+    "threshold": 6,
+    "success_rate": 97.89,
+    "cost_per_request": 0.00224,
+    "cost_per_success": 0.1409,
+    "misrouted_categories": 0,
+    "misrouted_requests": 0,
+    "misrouted_pct": 0.0
+  },
+  {
+    "threshold": 8,
+    "success_rate": 94.82,
+    "cost_per_request": 0.00212,
+    "cost_per_success": 0.4045,
+    "misrouted_categories": 1,
+    "misrouted_requests": 310,
+    "misrouted_pct": 7.0
+  },
+  {
+    "threshold": 10,
+    "success_rate": 94.82,
+    "cost_per_request": 0.00178,
+    "cost_per_success": 0.4041,
+    "misrouted_categories": 1,
+    "misrouted_requests": 310,
+    "misrouted_pct": 7.0
+  },
+  {
+    "threshold": 12,
+    "success_rate": 91.41,
+    "cost_per_request": 0.00161,
+    "cost_per_success": 0.7172,
+    "misrouted_categories": 2,
+    "misrouted_requests": 690,
+    "misrouted_pct": 15.5
+  },
+  {
+    "threshold": 14,
+    "success_rate": 91.41,
+    "cost_per_request": 0.00161,
+    "cost_per_success": 0.7172,
+    "misrouted_categories": 2,
+    "misrouted_requests": 690,
+    "misrouted_pct": 15.5
+  },
+  {
+    "threshold": 16,
+    "success_rate": 91.41,
+    "cost_per_request": 0.00149,
+    "cost_per_success": 0.7171,
+    "misrouted_categories": 2,
+    "misrouted_requests": 690,
+    "misrouted_pct": 15.5
+  },
+  {
+    "threshold": 18,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 20,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 22,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 24,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 26,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 28,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 30,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 32,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 34,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 36,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 38,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 40,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 42,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 44,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 46,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 48,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 50,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 52,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 54,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 56,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 58,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 60,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 62,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  },
+  {
+    "threshold": 64,
+    "success_rate": 88.36,
+    "cost_per_request": 0.00134,
+    "cost_per_success": 1.0178,
+    "misrouted_categories": 3,
+    "misrouted_requests": 1030,
+    "misrouted_pct": 23.1
+  }
+]

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cost per successful request — tokens&traces</title>
+<style>
+  :root{
+    --bg:#0b0e13; --grid:#151a22; --text:#e7edf6; --muted:#8a97ad;
+    --cyan:#4fd6c9; --red:#ff4d52; --green:#34e07a;
+    --panel:#10141b; --panel-border:#1c2330;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;}
+  body{background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:36px 36px;min-height:100vh;display:flex;
+    align-items:center;justify-content:center;padding:32px 16px;}
+  .mono{font-family:"SF Mono","Cascadia Code",Consolas,"Courier New",monospace;}
+  .wrap{width:100%;max-width:900px;}
+  .eyebrow{font-family:"SF Mono",Consolas,monospace;font-size:12px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px 0;}
+  h1{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0 0 6px 0;line-height:1.25;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 24px 0;max-width:680px;line-height:1.5;}
+  .sub b{color:var(--text);}
+  .panel{background:var(--panel);border:1px solid var(--panel-border);
+    border-radius:12px;padding:24px;}
+
+  /* slider */
+  .slider-row{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
+  .slider-label{font-size:13px;color:var(--muted);white-space:nowrap;min-width:150px;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;
+    border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--red));outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;
+    border-radius:50%;background:var(--text);border:2px solid var(--bg);
+    box-shadow:0 0 0 1px var(--cyan);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+    background:var(--text);border:2px solid var(--bg);box-shadow:0 0 0 1px var(--cyan);cursor:pointer;}
+  .threshold-readout{font-size:14px;color:var(--text);text-align:right;min-width:150px;}
+  .threshold-readout b{color:var(--cyan);font-weight:700;}
+
+  /* HERO numbers — the focal point */
+  .hero-row{display:flex;gap:16px;margin-bottom:22px;}
+  .hero{flex:1;background:var(--bg);border:1px solid var(--panel-border);
+    border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;}
+  .hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .hero.green::before{background:var(--green);}
+  .hero.red::before{background:var(--red);}
+  .hero-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:10px;}
+  .hero-mult{font-family:"SF Mono",Consolas,monospace;font-size:46px;font-weight:800;
+    line-height:1;letter-spacing:-.02em;}
+  .hero.green .hero-mult{color:var(--green);}
+  .hero.red .hero-mult{color:var(--red);}
+  .hero-sub{font-family:"SF Mono",Consolas,monospace;font-size:15px;
+    color:var(--muted);margin-top:10px;}
+  .hero-sub .delta{font-weight:700;}
+  .hero.green .hero-sub .delta{color:var(--green);}
+  .hero.red .hero-sub .delta{color:var(--red);}
+  .hero-tag{font-size:11.5px;color:var(--muted);margin-top:4px;font-style:italic;}
+
+  svg{width:100%;height:auto;display:block;}
+  .gridline{stroke:var(--panel-border);stroke-width:1;}
+  .axis-label{fill:var(--muted);font-size:13px;font-family:"SF Mono",monospace;}
+  .axis-label.strong{fill:var(--text);}
+  .line-cpr{stroke:var(--green);stroke-width:3;fill:none;}
+  .line-cps{stroke:var(--red);stroke-width:3;fill:none;}
+  .baseline-line{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4;}
+  .dot{fill:var(--bg);stroke-width:3;}
+
+  /* supporting stats */
+  .substats{display:flex;gap:28px;margin-top:20px;padding-top:18px;
+    border-top:1px solid var(--panel-border);}
+  .substat-label{font-size:11px;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.07em;margin-bottom:5px;}
+  .substat-value{font-family:"SF Mono",Consolas,monospace;font-size:20px;font-weight:700;}
+
+  .callout{margin-top:18px;padding:13px 16px;border-radius:8px;font-size:14px;
+    line-height:1.55;border:1px solid var(--panel-border);background:var(--bg);
+    color:var(--muted);transition:border-color .15s,color .15s;}
+  .callout.hot{border-color:rgba(255,77,82,.45);color:var(--text);}
+  .callout b{color:inherit;}
+
+  .wordmark{text-align:right;margin-top:18px;font-family:"SF Mono",monospace;
+    font-size:11px;color:var(--muted);letter-spacing:.04em;}
+  .wordmark span{color:var(--cyan);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">payoff — ticket-triage router</p>
+  <h1>Cost per request is dropping. Cost per successful request isn't.</h1>
+  <p class="sub">
+    Same system, same day of tickets. Both numbers start at the cost of
+    sending everything to Sonnet 5 &mdash; the <b>1&times;</b> line. Drag the
+    router's aggressiveness and watch them split: one is what the dashboard
+    shows, one is what actually happened.
+  </p>
+
+  <div class="panel">
+    <div class="slider-row">
+      <span class="slider-label">Routing aggressiveness</span>
+      <input type="range" id="slider" min="0" max="32" step="1" value="0">
+      <span class="threshold-readout" id="thresholdReadout"></span>
+    </div>
+
+    <div class="hero-row">
+      <div class="hero green" id="heroCPR">
+        <div class="hero-label">Cost / request</div>
+        <div class="hero-mult" id="cprMult">1.0&times;</div>
+        <div class="hero-sub" id="cprSub"><span class="delta">baseline</span></div>
+        <div class="hero-tag">what the dashboard shows</div>
+      </div>
+      <div class="hero red" id="heroCPS">
+        <div class="hero-label">Cost / successful request</div>
+        <div class="hero-mult" id="cpsMult">1.0&times;</div>
+        <div class="hero-sub" id="cpsSub"><span class="delta">baseline</span></div>
+        <div class="hero-tag">what actually happened</div>
+      </div>
+    </div>
+
+    <svg id="chart" viewBox="0 0 820 300" preserveAspectRatio="xMidYMid meet"></svg>
+
+    <div class="substats">
+      <div>
+        <div class="substat-label">Semantic success rate</div>
+        <div class="substat-value" id="statSuccess">—</div>
+      </div>
+      <div>
+        <div class="substat-label">Categories misrouted</div>
+        <div class="substat-value" id="statMisrouted">—</div>
+      </div>
+      <div>
+        <div class="substat-label">Requests/day misrouted</div>
+        <div class="substat-value" id="statMisReq">—</div>
+      </div>
+      <div>
+        <div class="substat-label">Word threshold</div>
+        <div class="substat-value" id="statThreshold">—</div>
+      </div>
+    </div>
+
+    <div class="callout" id="callout"></div>
+  </div>
+
+  <div class="wordmark">tokens<span>&</span>traces</div>
+</div>
+
+<script>
+// Data generated by sweep_for_demo.py — same cost_of_request / simulate_day
+// / summarize functions as 01_clean.py through 04_fixed.py. Nothing here is
+// invented independently of that code.
+const DATA = [{"threshold": 0, "success_rate": 97.89, "cost_per_request": 0.00224, "cost_per_success": 0.1409, "misrouted_categories": 0, "misrouted_requests": 0, "misrouted_pct": 0.0}, {"threshold": 2, "success_rate": 97.89, "cost_per_request": 0.00224, "cost_per_success": 0.1409, "misrouted_categories": 0, "misrouted_requests": 0, "misrouted_pct": 0.0}, {"threshold": 4, "success_rate": 97.89, "cost_per_request": 0.00224, "cost_per_success": 0.1409, "misrouted_categories": 0, "misrouted_requests": 0, "misrouted_pct": 0.0}, {"threshold": 6, "success_rate": 97.89, "cost_per_request": 0.00224, "cost_per_success": 0.1409, "misrouted_categories": 0, "misrouted_requests": 0, "misrouted_pct": 0.0}, {"threshold": 8, "success_rate": 94.82, "cost_per_request": 0.00212, "cost_per_success": 0.4045, "misrouted_categories": 1, "misrouted_requests": 310, "misrouted_pct": 7.0}, {"threshold": 10, "success_rate": 94.82, "cost_per_request": 0.00178, "cost_per_success": 0.4041, "misrouted_categories": 1, "misrouted_requests": 310, "misrouted_pct": 7.0}, {"threshold": 12, "success_rate": 91.41, "cost_per_request": 0.00161, "cost_per_success": 0.7172, "misrouted_categories": 2, "misrouted_requests": 690, "misrouted_pct": 15.5}, {"threshold": 14, "success_rate": 91.41, "cost_per_request": 0.00161, "cost_per_success": 0.7172, "misrouted_categories": 2, "misrouted_requests": 690, "misrouted_pct": 15.5}, {"threshold": 16, "success_rate": 91.41, "cost_per_request": 0.00149, "cost_per_success": 0.7171, "misrouted_categories": 2, "misrouted_requests": 690, "misrouted_pct": 15.5}, {"threshold": 18, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 20, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 22, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 24, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 26, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 28, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 30, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 32, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 34, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 36, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 38, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 40, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 42, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 44, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 46, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 48, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 50, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 52, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 54, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 56, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 58, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 60, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 62, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}, {"threshold": 64, "success_rate": 88.36, "cost_per_request": 0.00134, "cost_per_success": 1.0178, "misrouted_categories": 3, "misrouted_requests": 1030, "misrouted_pct": 23.1}];
+
+// Both metrics normalized to their own threshold-0 value, so both start at 1x
+// (all-Sonnet baseline) and share ONE axis: multiple of baseline.
+const CPR_BASE = DATA[0].cost_per_request;
+const CPS_BASE = DATA[0].cost_per_success;
+const norm = d => ({ cpr: d.cost_per_request / CPR_BASE, cps: d.cost_per_success / CPS_BASE });
+
+const slider = document.getElementById('slider');
+const chart = document.getElementById('chart');
+
+const PAD = { l: 44, r: 96, t: 22, b: 34 };
+const W = 820, H = 300;
+const plotW = W - PAD.l - PAD.r;
+const plotH = H - PAD.t - PAD.b;
+
+const scaleX = i => PAD.l + (i / (DATA.length - 1)) * plotW;
+const Y_MAX = Math.max(...DATA.map(d => norm(d).cps)) * 1.12;
+const yScale = m => PAD.t + plotH - (m / Y_MAX) * plotH;
+const Y_TICKS = [1, 2, 4, 6, 8].filter(t => t <= Y_MAX);
+
+const fmtMoney = x => x >= 1 ? '$' + x.toFixed(2) : '$' + x.toFixed(4);
+const fmtMult = m => (m >= 10 ? m.toFixed(0) : m.toFixed(1)) + '\u00d7';
+
+function render(activeIdx) {
+  const cprPath = DATA.map((d, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(i)} ${yScale(norm(d).cpr)}`).join(' ');
+  const cpsPath = DATA.map((d, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(i)} ${yScale(norm(d).cps)}`).join(' ');
+
+  let yaxis = '';
+  Y_TICKS.forEach(t => {
+    const y = yScale(t);
+    if (t === 1) {
+      yaxis += `<line class="baseline-line" x1="${PAD.l}" y1="${y}" x2="${W - PAD.r}" y2="${y}" />`;
+      yaxis += `<text class="axis-label strong" x="${W - PAD.r + 8}" y="${y + 4}">1\u00d7 all&#8209;Sonnet</text>`;
+    } else {
+      yaxis += `<line class="gridline" x1="${PAD.l}" y1="${y}" x2="${W - PAD.r}" y2="${y}" />`;
+      yaxis += `<text class="axis-label" x="${PAD.l - 8}" y="${y + 4}" text-anchor="end">${t}\u00d7</text>`;
+    }
+  });
+
+  const activeX = scaleX(activeIdx);
+  const p = DATA[activeIdx];
+  const n = norm(p);
+
+  chart.innerHTML = `
+    ${yaxis}
+    <path class="line-cpr" d="${cprPath}" />
+    <path class="line-cps" d="${cpsPath}" />
+    <line x1="${activeX}" y1="${PAD.t}" x2="${activeX}" y2="${H - PAD.b}" stroke="var(--panel-border)" stroke-width="1.5" />
+    <circle class="dot" cx="${activeX}" cy="${yScale(n.cpr)}" r="5.5" style="stroke:var(--green)" />
+    <circle class="dot" cx="${activeX}" cy="${yScale(n.cps)}" r="5.5" style="stroke:var(--red)" />
+    <text class="axis-label" x="${PAD.l}" y="${H - 10}">less aggressive</text>
+    <text class="axis-label" x="${W - PAD.r}" y="${H - 10}" text-anchor="end">more aggressive</text>
+  `;
+
+  // hero numbers
+  const upPct = ((n.cps - 1) * 100).toFixed(0);
+  const downPct = ((1 - n.cpr) * 100).toFixed(0);
+  document.getElementById('cprMult').innerHTML = fmtMult(n.cpr);
+  document.getElementById('cpsMult').innerHTML = fmtMult(n.cps);
+  document.getElementById('cprSub').innerHTML =
+    `${fmtMoney(p.cost_per_request)} · <span class="delta">${activeIdx === 0 ? 'baseline' : downPct + '% cheaper'}</span>`;
+  document.getElementById('cpsSub').innerHTML =
+    `${fmtMoney(p.cost_per_success)} · <span class="delta">${activeIdx === 0 ? 'baseline' : '+' + upPct + '%'}</span>`;
+
+  document.getElementById('statSuccess').textContent = p.success_rate.toFixed(1) + '%';
+  document.getElementById('statMisrouted').textContent = p.misrouted_categories;
+  const misReqEl = document.getElementById('statMisReq');
+  misReqEl.textContent = p.misrouted_requests === 0
+    ? '0'
+    : `${p.misrouted_requests.toLocaleString()} · ${p.misrouted_pct}%`;
+  misReqEl.style.color = p.misrouted_requests === 0 ? '' : 'var(--red)';
+  document.getElementById('statThreshold').textContent = p.threshold + ' words';
+  document.getElementById('thresholdReadout').innerHTML = `word threshold: <b>${p.threshold}</b>`;
+
+  const callout = document.getElementById('callout');
+  if (p.misrouted_categories === 0) {
+    callout.className = 'callout';
+    callout.innerHTML = `Both numbers sit on 1&times;. Cost per request and cost per successful request are still moving together &mdash; the dashboard isn't lying yet.`;
+  } else {
+    callout.className = 'callout hot';
+    callout.innerHTML = `<b>${p.misrouted_categories} categor${p.misrouted_categories === 1 ? 'y' : 'ies'} misrouted &mdash; ${p.misrouted_requests.toLocaleString()} requests/day, ${p.misrouted_pct}% of volume.</b> Not 3 bad tickets: 3 ticket types sent to the weaker model on every occurrence. Cost per request fell to ${fmtMult(n.cpr)}, cost per successful request climbed to ${fmtMult(n.cps)}.`;
+  }
+}
+
+slider.addEventListener('input', () => render(parseInt(slider.value, 10)));
+render(0);
+</script>
+</body>
+</html>
