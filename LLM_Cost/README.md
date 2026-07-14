@@ -1,5 +1,9 @@
 # 🎯 LLM Routing: From Dashboard Hero to Business Disaster
 
+**"Optimize what matters. Don't let the dashboard lie to you."**
+
+---
+
 A complete demonstration of why **cost per request** is a vanity metric and **cost per successful request** is the only metric that matters.
 
 ---
@@ -142,6 +146,4 @@ MIT
 
 Inspired by real-world production issues with LLM routing at scale.
 
----
 
-**"Optimize what matters. Don't let the dashboard lie to you."**
