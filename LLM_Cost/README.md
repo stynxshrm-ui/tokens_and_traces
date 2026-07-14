@@ -2,8 +2,6 @@
 
 **"Optimize what matters. Don't let the dashboard lie to you."**
 
----
-
 A complete demonstration of why **cost per request** is a vanity metric and **cost per successful request** is the only metric that matters.
 
 ---
