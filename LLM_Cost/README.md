@@ -8,7 +8,7 @@ A complete demonstration of why **cost per request** is a vanity metric and **co
 
 ## 🎥 Watch the Video
 
-[Link to your YouTube video]
+[[Link to YouTube video](https://youtu.be/CinFq9I81m4)]
 
 ---
 
