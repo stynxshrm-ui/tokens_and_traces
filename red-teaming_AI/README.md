@@ -2,6 +2,13 @@
 
 > 5 AI agents debate any topic. One of them is trying to manipulate the others.
 
+---
+## Video walkthrough
+
+*[YouTube link — add when published]*
+
+---
+
 A Jupyter notebook that exposes **sycophancy and reasoning vulnerabilities** in AI — by putting a dedicated adversarial agent inside a multi-model debate council. Watch six manipulation tactics get deployed live, labeled in real time.
 
 [![Python](https://img.shields.io/badge/python-3.8+-blue)](https://python.org)
@@ -64,7 +71,7 @@ Get an API key at [console.anthropic.com](https://console.anthropic.com) → tak
 VS Code has full Jupyter support built in — no separate Jupyter install needed:
 
 1. Install the [Jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
-2. Open `red_team_council.ipynb`
+2. Open `red_team_council_Anthropic.ipynb`
 3. Select your Python interpreter (top right)
 4. Run cells with `Shift+Enter`
 
@@ -85,15 +92,9 @@ After the debate, a **Security Verdict** cell calls a separate Claude instance t
 ```
 ai-red-team-council/
 ├── README.md
-├── red_team_council.ipynb    ← Main file — run this
+├── red_team_council.ipynb    ← Main file — run this (Anthorpic OR openAI)
 └── app.jsx               ← Paste into Claude.ai for a visual version
 ```
-
----
-
-## Video walkthrough
-
-*[YouTube link — add when published]*
 
 ---
 
