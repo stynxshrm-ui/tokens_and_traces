@@ -58,7 +58,7 @@ pip install anthropic
 
 export ANTHROPIC_API_KEY="sk-ant-your-key-here"
 
-jupyter notebook red_team_council.ipynb
+jupyter notebook red_team_council_Anthropic.ipynb
 # or in VS Code: open the .ipynb file directly
 ```
 
