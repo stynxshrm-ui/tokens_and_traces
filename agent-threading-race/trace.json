@@ -1,0 +1,222 @@
+[
+  {
+    "name": "gen_ai.execute_tool",
+    "thread_id": 131593612244672,
+    "thread_name": "ThreadPoolExecutor-1_0",
+    "start_rel_s": 0.0009,
+    "end_rel_s": 0.192,
+    "attributes": {
+      "gen_ai.tool.name": "get_weather",
+      "gen_ai.operation.name": "execute_tool",
+      "thread.id": 131593612244672,
+      "thread.name": "ThreadPoolExecutor-1_0"
+    },
+    "events": [
+      {
+        "name": "history_index_read",
+        "time_rel_s": 0.1513,
+        "attributes": {
+          "idx_read": 0
+        }
+      },
+      {
+        "name": "history_append",
+        "time_rel_s": 0.1717,
+        "attributes": {
+          "idx_written": 0,
+          "history_len_after": 1
+        }
+      },
+      {
+        "name": "step_counter_read",
+        "time_rel_s": 0.1717,
+        "attributes": {
+          "value_read": 0
+        }
+      },
+      {
+        "name": "step_counter_write",
+        "time_rel_s": 0.192,
+        "attributes": {
+          "value_written": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "gen_ai.execute_tool",
+    "thread_id": 131593595442880,
+    "thread_name": "ThreadPoolExecutor-1_2",
+    "start_rel_s": 0.0011,
+    "end_rel_s": 0.1928,
+    "attributes": {
+      "gen_ai.tool.name": "send_email",
+      "gen_ai.operation.name": "execute_tool",
+      "thread.id": 131593595442880,
+      "thread.name": "ThreadPoolExecutor-1_2"
+    },
+    "events": [
+      {
+        "name": "history_index_read",
+        "time_rel_s": 0.1515,
+        "attributes": {
+          "idx_read": 0
+        }
+      },
+      {
+        "name": "history_append",
+        "time_rel_s": 0.1718,
+        "attributes": {
+          "idx_written": 0,
+          "history_len_after": 2
+        }
+      },
+      {
+        "name": "step_counter_read",
+        "time_rel_s": 0.1719,
+        "attributes": {
+          "value_read": 0
+        }
+      },
+      {
+        "name": "step_counter_write",
+        "time_rel_s": 0.1926,
+        "attributes": {
+          "value_written": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "gen_ai.execute_tool",
+    "thread_id": 131593603851968,
+    "thread_name": "ThreadPoolExecutor-1_1",
+    "start_rel_s": 0.001,
+    "end_rel_s": 0.2021,
+    "attributes": {
+      "gen_ai.tool.name": "get_calendar_events",
+      "gen_ai.operation.name": "execute_tool",
+      "thread.id": 131593603851968,
+      "thread.name": "ThreadPoolExecutor-1_1"
+    },
+    "events": [
+      {
+        "name": "history_index_read",
+        "time_rel_s": 0.1614,
+        "attributes": {
+          "idx_read": 0
+        }
+      },
+      {
+        "name": "history_append",
+        "time_rel_s": 0.1819,
+        "attributes": {
+          "idx_written": 0,
+          "history_len_after": 3
+        }
+      },
+      {
+        "name": "step_counter_read",
+        "time_rel_s": 0.1819,
+        "attributes": {
+          "value_read": 0
+        }
+      },
+      {
+        "name": "step_counter_write",
+        "time_rel_s": 0.2021,
+        "attributes": {
+          "value_written": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "gen_ai.execute_tool",
+    "thread_id": 131593595442880,
+    "thread_name": "ThreadPoolExecutor-2_0",
+    "start_rel_s": 0.2038,
+    "end_rel_s": 0.3952,
+    "attributes": {
+      "gen_ai.tool.name": "get_weather",
+      "gen_ai.operation.name": "execute_tool",
+      "thread.id": 131593595442880,
+      "thread.name": "ThreadPoolExecutor-2_0"
+    },
+    "events": [
+      {
+        "name": "history_index_read",
+        "time_rel_s": 0.3542,
+        "attributes": {
+          "idx_read": 3
+        }
+      },
+      {
+        "name": "history_append",
+        "time_rel_s": 0.3747,
+        "attributes": {
+          "idx_written": 3,
+          "history_len_after": 4
+        }
+      },
+      {
+        "name": "step_counter_read",
+        "time_rel_s": 0.3747,
+        "attributes": {
+          "value_read": 1
+        }
+      },
+      {
+        "name": "step_counter_write",
+        "time_rel_s": 0.3951,
+        "attributes": {
+          "value_written": 2
+        }
+      }
+    ]
+  },
+  {
+    "name": "gen_ai.execute_tool",
+    "thread_id": 131593603851968,
+    "thread_name": "ThreadPoolExecutor-2_1",
+    "start_rel_s": 0.2047,
+    "end_rel_s": 0.4058,
+    "attributes": {
+      "gen_ai.tool.name": "get_calendar_events",
+      "gen_ai.operation.name": "execute_tool",
+      "thread.id": 131593603851968,
+      "thread.name": "ThreadPoolExecutor-2_1"
+    },
+    "events": [
+      {
+        "name": "history_index_read",
+        "time_rel_s": 0.3651,
+        "attributes": {
+          "idx_read": 3
+        }
+      },
+      {
+        "name": "history_append",
+        "time_rel_s": 0.3856,
+        "attributes": {
+          "idx_written": 3,
+          "history_len_after": 5
+        }
+      },
+      {
+        "name": "step_counter_read",
+        "time_rel_s": 0.3856,
+        "attributes": {
+          "value_read": 1
+        }
+      },
+      {
+        "name": "step_counter_write",
+        "time_rel_s": 0.4058,
+        "attributes": {
+          "value_written": 2
+        }
+      }
+    ]
+  }
+]
